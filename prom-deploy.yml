@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: prom-deploy
+spec:
+  selector:
+    matchLabels:
+     app: prometheus
+     purpose: monitoring
+  template:
+    metadata:
+      name: prom-pod
+      labels:
+        app: prometheus
+        purpose: monitoring 
+    spec:
+      containers:
+      - name: prom-con
+        image: vimal13/prometheus
+        ports:
+        - containerPort: 9090
+          name: prom-con   
+        volumeMounts:
+        - name: config-mount 
+          mountPath: /etc/prometheus
+        - name: vol-mount
+          mountPath: /prometheus
+
+      volumes:
+      - name: config-mount
+        configMap:
+          name: prom-config
+      - name: vol-mount 
+        persistentVolumeClaim:
+          claimName: prom-pvc   

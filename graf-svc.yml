@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: graf-svc
+  labels:
+    app: grafana
+    purpose: monitoring
+spec:
+  selector:
+    app: grafana
+    purpose: monitoring
+  ports:
+  - port: 3000
+    nodePort: 32000
+  type: NodePort   

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: graf-deploy
+  labels:
+    app: grafana
+    purpose: monitoring
+spec:
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: grafana
+      purpose: monitoring      
+  template:
+    metadata:
+      name: graf-pod
+      labels:
+        app: grafana
+        purpose: monitoring 
+    spec:
+      containers:
+      - name: graf-con
+        image: vimal13/grafana
+        ports:
+        - name: graf-con
+          containerPort: 3000
+        volumeMounts:
+        - name: vol-graf
+          mountPath: /var/lib/grafana            
+   
+      volumes:
+      - name: vol-graf
+        persistentVolumeClaim:
+          claimName: graf-pvc
+  
+              
+      
+ 

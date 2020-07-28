@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: prom-service
+  labels:
+    app: prometheus
+    purpose: monitoring
+spec:
+  ports:
+    - port: 9090
+      nodePort: 31000
+  selector:
+    app: prometheus
+    purpose: monitoring
+  type: NodePort
